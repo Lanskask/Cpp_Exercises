@@ -28,56 +28,23 @@ using namespace std;
 template<typename T>
 void print_vector(const vector<T> &vect);
 
-template<typename T>
-bool vector_contains(const vector<T> &v, T x);
-
-bool have_in_raw(int n, string str) {
-    char prev_letter = str[0];
-    int in_raw = 1;
-    for (int i = 1; i < str.size(); ++i) {
-        if (str[i] == prev_letter) {
-            in_raw++;
-        }
-        if (in_raw == n) {
-            return true;
-        }
-    }
-    return false;
-}
-
-vector<int> in_raw_char_counter(string str) {
-    vector<int> res;
+bool symbols_in_raw(string str, int n) {
     char prev_char = str[0];
     int counter = 1;
 
-//    "a bbb cd"
     for (int i = 1; i < str.size(); ++i) {
         char current_char = str[i];
         if (current_char == prev_char) {
             counter++;
+            if(counter == n) return true;
             prev_char = current_char;
         } else {
-            res.push_back(counter);
             counter = 1;
             prev_char = current_char;
         }
     }
 
-    res.push_back(counter);
-    return res;
-}
-
-void check_1() {
-    vector<int> num_in_raw = {3, 4, 4, 2};
-    vector<string> input_data = {"a bbb cd", "ab cdddd", "a bcddd", "aabc ddd"};
-
-    for (int i = 0; i < num_in_raw.size(); ++i) {
-        cout << have_in_raw(num_in_raw[i], input_data[i]) << ", ";
-    }
-    cout << endl;
-
-    cout << "Should be" << endl;
-    cout << "1, 1, 0, 1" << endl;
+    return false;
 }
 
 void check_3() {
@@ -86,12 +53,8 @@ void check_3() {
 
 
     for (int i = 0; i < num_in_raw.size(); ++i) {
-//        cout << vector_contains(symbols_in_raw(input_strs[i]), ) << ", ";
-
-        auto v = in_raw_char_counter(input_strs[i]);
-        auto x = num_in_raw[i];
-        auto res = find(v.begin(), v.end(), x) != v.end();
-        cout << res << ", ";
+        auto v = symbols_in_raw(input_strs[i], num_in_raw[i]);
+        cout << v << ", ";
     }
 
     cout << endl;
@@ -99,22 +62,7 @@ void check_3() {
     cout << "1, 1, 0, 1" << endl;
 }
 
-void check_2() {
-    vector<string> input_data = {
-            "a bbb cd",
-            "ab cdddd",
-            "a bcddd",
-            "aabc ddd"
-    };
-
-    for (auto str : input_data) {
-        print_vector(in_raw_char_counter(str));
-    }
-}
-
 int main() {
-//    check_1();
-//    check_2();
     check_3();
 }
 

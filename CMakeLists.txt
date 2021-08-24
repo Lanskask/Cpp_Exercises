@@ -7,4 +7,6 @@ set(CMAKE_CXX_STANDARD 17)
 add_subdirectory(init_progs)
 add_subdirectory(part1)
 add_subdirectory(part2)
+add_subdirectory(part3)
+add_subdirectory(part4)
 
