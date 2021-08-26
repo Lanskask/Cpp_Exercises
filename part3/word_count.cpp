@@ -19,14 +19,22 @@
 
 using namespace std;
 
-string empty_str = "";
-
-bool is_pair_of_spaces(char ch1, char ch2) {
-    return ch1 == ' ' && ch2 == ' ';
+bool only_chars(string &str) {
+    bool res = false;
+    for (char i : str) {
+        res = i != ' ';
+        if(!res) return false; // if a one char is a space - then return false immediately
+    }
+    return res;
 }
 
-bool is_pair_of_chars(char ch1, char ch2) {
-    return ch1 != ' ' && ch2 != ' ';
+bool only_spaces(string &str) {
+    bool res = false;
+    for (char i : str) {
+        res = i == ' ';
+        if(!res) return false; // if a one char is a space - then return false immediately
+    }
+    return res;
 }
 
 int count_words(string &str) {
@@ -34,34 +42,26 @@ int count_words(string &str) {
 
     if(str.empty()) return 0;
 
-    for (int i = 0; i < str.size() - 1; ++i) {
-        char current_char = str.at(i);
-        char next_char = str.at(i + 1);
-
-
-    }
+    if(only_chars(str)) return 1;
+    if(only_spaces(str)) return 0;
 
     for (int i = 1; i < str.size(); ++i) {
         char prev_char = str.at(i - 1);
         char current_char = str.at(i);
 
-        // if begins with spaces - dont count
-        // if ends with sparces - dont count
-        if(is_pair_of_spaces(prev_char, current_char) || is_pair_of_chars(prev_char, current_char)) {
+        if(prev_char == ' ' && current_char == ' ') { // if pair of spaces
             continue;
-        } else {
-
+        } else if(prev_char != ' ' && current_char == ' ') { // if switch from word to space
+            continue;
+        } else if(prev_char == ' ' && current_char != ' ') { // if switch from space to word
+            word_count++;
+        } else { // if(current_char != ' ' && prev_char != ' ') // if chars
+            continue;
         }
 
-        if(current_char == ' ' && prev_char == ' ') {
-            continue;
-        } else if(current_char == ' ' && prev_char != ' ') {
-            word_count++;
-        } else if(current_char != ' ' && prev_char != ' ') {
-            continue;
-        } else { // if(current_char != ' ' && prev_char != ' ')
-            word_count++;
-        }
+    }
+    if(str[0] != ' ') {
+        word_count++;
     }
 
     return word_count;
@@ -72,7 +72,7 @@ void check_1() {
             "   abbb bbcd",
             "abc dd dd",
             "  abc dd dd ",
-            "   "
+            "dd"
     };
 
     for (auto item : input_data) {
